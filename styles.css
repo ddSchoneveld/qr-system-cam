@@ -1,0 +1,139 @@
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 100svh; /* 👈 modern fix voor mobiel */
+  padding: 2vh 4vw;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f9f9f9;
+  overflow-x: hidden;
+}
+
+/* Bovenaan status */
+.status {
+  font-size: clamp(1.6rem, 4.5vw, 2.8rem);
+  font-weight: 600;
+  margin: 2vh 0;
+  text-align: center;
+  word-break: break-word;
+}
+
+/* Resultaat */
+.result-screen {
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+  margin: 2vh auto;
+  padding: 2rem 1.5rem;
+  border-radius: 16px;
+  transition: background-color 0.4s ease;
+  box-sizing: border-box;
+}
+
+.result-text {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+}
+
+.scanned-info {
+  font-size: clamp(1.2rem, 3.5vw, 1.8rem);
+  font-weight: 600;
+  line-height: 1.6;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  text-align: left;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+/* Modus knoppen */
+.mode-bar {
+  display: flex;
+  gap: 1rem;
+  margin: 2vh 0;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.mode-btn {
+  flex: 1 1 auto;
+  min-width: 120px;
+  padding: 0.9rem 1.5rem;
+  font-size: 1.1rem;
+  border-radius: 10px;
+  border: 2px solid #00bfff;
+  background: white;
+  color: #00bfff;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.06);
+  text-align: center;
+}
+
+/* Actieve knoppen */
+.mode-btn.active.enkel {
+  background: #00bfff;
+  color: white;
+  border-color: #00bfff;
+}
+
+.mode-btn.active.meerdere {
+  background: orange;
+  color: white;
+  border-color: orange;
+}
+
+/* Reset knop onder */
+.reset-btn {
+  width: 90%;
+  max-width: 480px;
+  padding: 1.2rem;
+  font-size: 1.3rem;
+  margin-bottom: 2vh;
+  background: #e0e0e0;
+  color: #333;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+
+.reset-btn:hover {
+  background: #d0d0d0;
+}
+
+.reset-btn.danger {
+  background: #dc3545;
+  color: white;
+}
+
+/* Compactere layout bij GOED */
+.result-screen.ok {
+  background-color: #28a745; /* Fel groen */
+  color: white;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  min-height: auto;
+}
+
+/* Standaard (voor FOUT) blijft groter */
+.result-screen.no {
+  background-color: #dc3545; /* Fel rood */
+  color: white;
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+  min-height: 40vh;
+}
+
+.scanned-info div:empty {
+  display: none;
+}

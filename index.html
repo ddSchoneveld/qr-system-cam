@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Controle</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Status -->
+  <div id="status" class="status">Start scannen</div>
+
+  <!-- Result -->
+  <div id="resultScreen" class="result-screen hidden">
+    <div id="resultText" class="result-text"></div>
+    <div class="scanned-info">
+      <div><strong>1e:</strong> <span id="firstScannedValue"></span></div>
+      <div><strong>2e:</strong> <span id="secondScannedValue"></span></div>
+    </div>
+  </div>
+
+  <!-- Mode switch -->
+  <div id="modeBar" class="mode-bar">
+    <div id="modeEnkel" class="mode-btn active">Enkel</div>
+    <div id="modeMeerdere" class="mode-btn">Meerdere</div>
+  </div>
+
+  <!-- Camera UI -->
+  <div id="qrReader" class="hidden"></div>
+
+  <button id="cameraBtn" class="camera-btn">Use camera</button>
+  <button id="stopCameraBtn" class="hidden">Stop camera</button>
+
+  <!-- Reset -->
+  <button id="resetBtn" class="reset-btn">Reset</button>
+
+  <!-- Load the QR library first -->
+  <script src="https://unpkg.com/html5-qrcode"></script>
+
+  <!-- Load your app.js LAST, after DOM is ready -->
+  <script src="app.js"></script>
+</body>
+</html>
