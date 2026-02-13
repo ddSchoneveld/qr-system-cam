@@ -14,6 +14,7 @@ let audioCtx = null;
 // Camera / QR
 let qr = null;
 let scanningActive = false;
+let scanIndex = 1;
 
 // Duplicate guard (prevents same QR firing many times while camera stays on it)
 let lastDecoded = "";
@@ -29,6 +30,8 @@ function initApp() {
     resultText: document.getElementById("resultText"),
     firstValue: document.getElementById("firstScannedValue"),
     secondValue: document.getElementById("secondScannedValue"),
+    firstLabel: document.getElementById("firstLabel"),
+    secondLabel: document.getElementById("secondLabel"),
     resetBtn: document.getElementById("resetBtn"),
     modeEnkelBtn: document.getElementById("modeEnkel"),
     modeMeerdereBtn: document.getElementById("modeMeerdere"),
@@ -67,8 +70,10 @@ function resetApp() {
   state = State.SCAN_1;
   firstValue = null;
   secondValue = null;
+  buffer = "" ;
   acceptingInput = true;
 
+  scanIndex = 1;
   UI.resultScreen.classList.remove("ok", "no");
   hideElement(UI.resultScreen);
   clearResultDisplay();
@@ -76,18 +81,31 @@ function resetApp() {
   updateStatus("Start scannen");
   UI.resetBtn.classList.remove("danger");
 
+  updateScanLabels();
   // allow same code again after reset
   lastDecoded = "";
   lastDecodedAt = 0;
 }
 
+function updateScanLabels() {
+  if (mode === "meerdere") {
+    UI.firstLabel.textContent = `${scanIndex}e`;
+    UI.secondLabel.textContent = `${scanIndex + 1}e`;
+  } else {
+    UI.firstLabel.textContent = "1e";
+    UI.secondLabel.textContent = "2e";
+  }
+}
+
 // SCAN FLOW (unchanged logic)
 function handleScan(raw) {
   const value = normalize(raw);
+  buffer = "";
 
   if (state === State.SCAN_1) {
     firstValue = value;
     UI.resultScreen.classList.remove("ok", "no");
+    updateScanLabels();
 
     // show first scan immediately
     UI.firstValue.textContent = firstValue;
@@ -97,7 +115,7 @@ function handleScan(raw) {
     showElement(UI.resultScreen);
 
     state = State.SCAN_2;
-    updateStatus("Scan tweede QR");
+    updateStatus(mode === "meerdere" ? `Scan ${scanIndex + 1}e QR` : "Scan tweede QR");
 
   } else if (state === State.SCAN_2) {
     secondValue = value;
@@ -124,11 +142,15 @@ function showResult(ok) {
 
   if (mode === "meerdere") {
     if (ok) {
-      // Keep firstValue; continue scanning multiple second QR's
-      state = State.SCAN_2;
+      scanIndex += 1;
+      firstValue = secondValue;
       secondValue = null;
+      // Keep firstValue; continue scanning multiple second QR's
+
+      state = State.SCAN_2;
       acceptingInput = true;
-      updateStatus("Scan volgende QR");
+      updateScanLabels();
+      updateStatus(`Scan ${scanIndex + 1}e QR`);
     } else {
       acceptingInput = false;
       updateStatus("");
@@ -141,6 +163,7 @@ function showResult(ok) {
       secondValue = null;
       acceptingInput = true;
       updateStatus("Scan nieuwe 1e QR");
+      updateScanLabels();
     } else {
       acceptingInput = false;
       updateStatus("");
