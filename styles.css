@@ -137,3 +137,22 @@ body {
 .scanned-info div:empty {
   display: none;
 }
+
+/* Camera preview container */
+#qrReader {
+  width: min(92vw, 600px);
+  aspect-ratio: 1 / 1;        /* matches qrbox=250 square */
+  border-radius: 16px;
+  overflow: hidden;
+  background: #000;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  margin: 1rem 0;
+}
+
+/* Ensure the injected video/canvas fills the box */
+#qrReader video,
+#qrReader canvas {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+}

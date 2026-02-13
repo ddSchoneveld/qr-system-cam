@@ -21,7 +21,8 @@ let lastDecoded = "";
 let lastDecodedAt = 0;
 const DUPLICATE_WINDOW_MS = 1200;
 
-let UI = {};;
+let UI = {};
+let buffer = "";
 
 function initApp() {
   UI = {
