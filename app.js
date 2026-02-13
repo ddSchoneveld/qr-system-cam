@@ -90,7 +90,7 @@ function resetApp() {
 
 function updateScanLabels() {
   if (mode === "meerdere") {
-    UI.firstLabel.textContent = `${scanIndex}e`;
+    UI.firstLabel.textContent = "1e";
     UI.secondLabel.textContent = `${scanIndex + 1}e`;
   } else {
     UI.firstLabel.textContent = "1e";
