@@ -15,6 +15,7 @@ let audioCtx = null;
 let qr = null;
 let scanningActive = false;
 let scanIndex = 1;
+let pendingLabelUpdate = false;
 
 // Duplicate guard (prevents same QR firing many times while camera stays on it)
 let lastDecoded = "";
@@ -74,7 +75,8 @@ function resetApp() {
   buffer = "" ;
   acceptingInput = true;
 
-  scanIndex = 1;
+  scanIndex = 2;
+  pendingLabelUpdate = false;
   UI.resultScreen.classList.remove("ok", "no");
   hideElement(UI.resultScreen);
   clearResultDisplay();
@@ -91,7 +93,7 @@ function resetApp() {
 function updateScanLabels() {
   UI.firstLabel.textContent = "1e";
   if (mode === "meerdere") {
-    UI.secondLabel.textContent = `${scanIndex+1}e`;
+    UI.secondLabel.textContent = `${scanIndex}e`;
   } else {
     UI.secondLabel.textContent = "2e";
   }
@@ -99,6 +101,12 @@ function updateScanLabels() {
 
 // SCAN FLOW (unchanged logic)
 function handleScan(raw) {
+  
+  if (mode === "meerdere" && pendingLabelUpdate && state === State.SCAN_2) {
+    updateScanLabels();
+    pendingLabelUpdate = false;
+  }
+
   const value = normalize(raw);
   buffer = "";
 
@@ -141,8 +149,9 @@ function showResult(ok) {
   vibrate(ok);
 
   if (mode === "meerdere") {
+    scanIndex += 1;
+    pendingLabelUpdate = true;
     if (ok) {
-      scanIndex += 1;
       firstValue = secondValue;
       secondValue = null;
       // Keep firstValue; continue scanning multiple second QR's
@@ -150,7 +159,7 @@ function showResult(ok) {
       state = State.SCAN_2;
       acceptingInput = true;
       updateScanLabels();
-      updateStatus(`Scan ${scanIndex + 1}e QR`);
+      updateStatus(`Scan volgende QR`);
     } else {
       acceptingInput = false;
       updateStatus("");
