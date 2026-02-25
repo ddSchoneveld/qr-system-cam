@@ -101,7 +101,7 @@ function updateScanLabels() {
 
 // SCAN FLOW (unchanged logic)
 function handleScan(raw) {
-  
+
   if (mode === "meerdere" && pendingLabelUpdate && state === State.SCAN_2) {
     updateScanLabels();
     pendingLabelUpdate = false;
@@ -113,7 +113,6 @@ function handleScan(raw) {
   if (state === State.SCAN_1) {
     firstValue = value;
     UI.resultScreen.classList.remove("ok", "no");
-    updateScanLabels();
 
     // show first scan immediately
     UI.firstValue.textContent = firstValue;
@@ -123,7 +122,7 @@ function handleScan(raw) {
     showElement(UI.resultScreen);
 
     state = State.SCAN_2;
-    updateStatus(mode === "meerdere" ? `Scan ${scanIndex + 1}e QR` : "Scan tweede QR");
+    updateStatus(mode === "meerdere" ? `Scan ${scanIndex}e QR` : "Scan tweede QR");
 
   } else if (state === State.SCAN_2) {
     secondValue = value;
@@ -158,7 +157,6 @@ function showResult(ok) {
 
       state = State.SCAN_2;
       acceptingInput = true;
-      updateScanLabels();
       updateStatus(`Scan volgende QR`);
     } else {
       acceptingInput = false;
