@@ -89,11 +89,10 @@ function resetApp() {
 }
 
 function updateScanLabels() {
+  UI.firstLabel.textContent = "1e";
   if (mode === "meerdere") {
-    UI.firstLabel.textContent = "1e";
-    UI.secondLabel.textContent = `${scanIndex}e`;
+    UI.secondLabel.textContent = `${scanIndex+1}e`;
   } else {
-    UI.firstLabel.textContent = "1e";
     UI.secondLabel.textContent = "2e";
   }
 }
